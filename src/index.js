@@ -1,17 +1,63 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+function useForm({ initialValues, validation, onSubmit }) {
+  
+}
+function FormComponent() {
+  const { handleChange, handleSubmit, values, errors } = useForm({
+    initialValues: { 
+      account: "",
+      password: "", 
+      rememberMe: false
+    },
+    validation: (values) => {
+    const errors = {}
+    if (!values.account) {
+      errors.account = "請輸入帳號"
+    } else if (!values.password) {
+      errors.password = "請輸入密碼"
+    }
+      return errors
+    },
+    onSubmit: (values) => console.table(values),
+    })
+    return (
+      <>
+        <input 
+          name="account" 
+          onChange={handleChange} 
+          value={values.account} 
+          placeholder="Account" 
+        />
+        {errors.account && (<div>{errors.account}</div>)}
+        <br/>
+        <input 
+          name="password" 
+          onChange={handleChange} 
+          value={values.password} 
+          placeholder="password"
+        />
+        {errors.password && (<div>{errors.password}</div>)}
+        <br/>
+        <label>
+          <input 
+            type="checkbox" 
+            name="rememberMe" 
+            onChange={handleChange} 
+            checked={values.rememberMe} 
+          />Remember Me
+        </label>
+        <br/>
+        <button onClick={handleSubmit}>Login</button>
+      </>
+    )
+}
+  
+class App extends React.Component {
+  render() {
+    return <FormComponent />;
+  }
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+ReactDOM.render(<App />, document.getElementById("root"));
