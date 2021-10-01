@@ -7,7 +7,7 @@ function useForm({ initialValues, validation, onSubmit }) {
     password: "bbb", 
     rememberMe: false
   }
-  const error = {
+  const errors = {
     account: "no acc",
     password: "no psw"
   }
@@ -19,7 +19,7 @@ function useForm({ initialValues, validation, onSubmit }) {
   }
   return {
     values,
-    error,
+    errors,
     handleSubmit,
     handleChange
   }
@@ -46,7 +46,7 @@ function FormComponent() {
     <>
       <input 
         name="account" 
-        onChange={handleChange} 
+        //onChange={handleChange} 
         value={values.account} 
         placeholder="Account" 
       />
@@ -54,7 +54,7 @@ function FormComponent() {
       <br/>
       <input 
         name="password" 
-        onChange={handleChange} 
+        // onChange={handleChange} 
         value={values.password} 
         placeholder="password"
       />
@@ -64,7 +64,7 @@ function FormComponent() {
         <input 
           type="checkbox" 
           name="rememberMe" 
-          onChange={handleChange} 
+          // onChange={handleChange} 
           checked={values.rememberMe} 
         />Remember Me
       </label>
