@@ -2,20 +2,13 @@ import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
 function useForm({ initialValues, validation, onSubmit }) {
-  const values = {
-    account: "aaa",
-    password: "bbb", 
-    rememberMe: false
-  }
-  const errors = {
-    account: "no acc",
-    password: "no psw"
-  }
+  const [values, setValues] = useState(initialValues); //set form data to value
+  const [errors, setErrors] = useState(validation); // validation return the error msg
   const handleSubmit = () => {
-
   }
-  const handleChange = () => {
-
+  const handleChange = ({target}) => {
+    const val = target.value;
+    const name = target.name;
   }
   return {
     values,
@@ -46,7 +39,7 @@ function FormComponent() {
     <>
       <input 
         name="account" 
-        //onChange={handleChange} 
+        onChange={handleChange} 
         value={values.account} 
         placeholder="Account" 
       />
@@ -54,7 +47,7 @@ function FormComponent() {
       <br/>
       <input 
         name="password" 
-        // onChange={handleChange} 
+        onChange={handleChange} 
         value={values.password} 
         placeholder="password"
       />
