@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
 function useForm({ initialValues, validation, onSubmit }) {
+<<<<<<< HEAD
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const handleChange = ({ target }) => {
@@ -23,6 +24,19 @@ function useForm({ initialValues, validation, onSubmit }) {
   };
   return {
     handleChange,
+=======
+  const [values, setValues] = useState(initialValues); //set form data to value
+  const [errors, setErrors] = useState(validation); // validation return the error msg
+  const handleSubmit = () => {
+  }
+  const handleChange = ({target}) => {
+    const val = target.value;
+    const name = target.name;
+  }
+  return {
+    values,
+    errors,
+>>>>>>> b04bc89709a76e480d40f26993f280815d0e332b
     handleSubmit,
     values,
     errors
