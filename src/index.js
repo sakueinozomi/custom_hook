@@ -2,82 +2,88 @@ import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
 function useForm({ initialValues, validation, onSubmit }) {
-  const values = {
-    account: "aaa",
-    password: "bbb", 
-    rememberMe: false
-  }
-  const error = {
-    account: "no acc",
-    password: "no psw"
-  }
+  const [values, setValues] = useState(initialValues);
+  const [errors, setErrors] = useState({});
+  const handleChange = ({ target }) => {
+    const val = target.value;
+    const name = target.name;
+    const newVal = Object.assign({}, values, { [name]: val });
+    const err = validation(newVal);
+    setValues(newVal);
+    setErrors(err);
+  };
   const handleSubmit = () => {
-
-  }
-  const handleChange = () => {
-
-  }
+    const err = validation(values);
+    setErrors(err);
+    if (Object.keys(err).length > 0) {
+      console.log(err);
+    } else {
+      onSubmit(values);
+    }
+  };
   return {
-    values,
-    error,
+    handleChange,
     handleSubmit,
-    handleChange
-  }
+    values,
+    errors
+  };
 }
+
 function FormComponent() {
   const { handleChange, handleSubmit, values, errors } = useForm({
-    initialValues: { 
+    initialValues: {
       account: "",
-      password: "", 
+      password: "",
       rememberMe: false
     },
     validation: (values) => {
-      const errors = {}
+      const errors = {};
       if (!values.account) {
-        errors.account = "請輸入帳號"
+        errors.account = "請輸入帳號";
       } else if (!values.password) {
-        errors.password = "請輸入密碼"
+        errors.password = "請輸入密碼";
       }
-        return errors
+      return errors;
     },
-    onSubmit: (values) => console.table(values),
-  })
+    onSubmit: (values) => console.table(values)
+  });
+
   return (
-    <>
-      <input 
-        name="account" 
-        onChange={handleChange} 
-        value={values.account} 
-        placeholder="Account" 
+    <React.Fragment>
+      <input
+        name="account"
+        onChange={handleChange}
+        value={values.account}
+        replaceholder="Account"
       />
-      {errors.account && (<div>{errors.account}</div>)}
-      <br/>
-      <input 
-        name="password" 
-        onChange={handleChange} 
-        value={values.password} 
-        placeholder="password"
+      <br />
+      {errors.account && <div>{errors.account}</div>}
+      <input
+        name="password"
+        onChange={handleChange}
+        value={values.password}
+        replaceholder="Password"
       />
-      {errors.password && (<div>{errors.password}</div>)}
-      <br/>
+      <br />
+      {errors.password && <div>{errors.password}</div>}
       <label>
-        <input 
-          type="checkbox" 
-          name="rememberMe" 
-          onChange={handleChange} 
-          checked={values.rememberMe} 
-        />Remember Me
+        <input
+          type="checkbox"
+          name="rememberMe"
+          onChange={handleChange}
+          checked={values.rememberMe}
+        />{" "}
+        Remember Me
       </label>
-      <br/>
+      <br />
       <button onClick={handleSubmit}>Login</button>
-    </>
-  )
+    </React.Fragment>
+  );
 }
-  
 class App extends React.Component {
   render() {
     return <FormComponent />;
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("container"));
